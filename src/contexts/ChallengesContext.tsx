@@ -52,6 +52,22 @@ export function ChallengesProvider({ children, ...rest }: ChallengesProviderProp
         Cookies.set('challengesCompleted', String(challengesCompleted));
     }, [level, currentExperience, challengesCompleted])
 
+    function startNewChallenge() {
+        const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
+        const challenge = challenges[randomChallengeIndex];
+
+        setActiveChallenge(challenge as Challenge);
+
+        new Audio('/notification.mp3').play();
+
+        if (Notification.permission === 'granted') {
+            new Notification('Novo desafio', {
+                body: `Valendo ${challenge.amount} de xp!`,
+                silent: false,
+            })
+        }
+    }
+    
     function levelUp() {
         setLevel(level + 1);
         setIsLevelUpModalOpen(true);
@@ -59,21 +75,6 @@ export function ChallengesProvider({ children, ...rest }: ChallengesProviderProp
 
     function closeLevelUpModal() {
         setIsLevelUpModalOpen(false);
-    }
-
-    function startNewChallenge() {
-        const randomChallengeIndex = Math.floor(Math.random() * challenges.length);
-        const challenge = challenges[randomChallengeIndex];
-
-        setActiveChallenge(challenge);
-
-        new Audio('/notification.mp3').play();
-
-        if (Notification.permission === 'granted') {
-            new Notification('Novo desafio', {
-                body: `Valendo ${challenge.amount} xp!`
-            })
-        }
     }
 
     function resetChallenge() {
