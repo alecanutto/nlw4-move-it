@@ -1,4 +1,4 @@
-import Head from 'next/Head';
+import Head from 'next/head'
 
 import { CompletedChallenges } from "../components/CompletedChallenges";
 import { Countdown } from "../components/Countdown";
